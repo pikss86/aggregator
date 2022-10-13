@@ -28,7 +28,6 @@ public class InternalMyAvg extends InternalNumericMetricsAggregation.SingleValue
 
     public InternalMyAvg(String name, double sum, long count, DocValueFormat format, Map<String, Object> metadata) {
         super(name, metadata);
-        LOGGER.info("InternalMyAvg");
         this.sum = sum;
         this.count = count;
         this.format = format;
@@ -39,7 +38,6 @@ public class InternalMyAvg extends InternalNumericMetricsAggregation.SingleValue
      */
     public InternalMyAvg(StreamInput in) throws IOException {
         super(in);
-        LOGGER.info("InternalMyAvg");
         format = in.readNamedWriteable(DocValueFormat.class);
         sum = in.readDouble();
         count = in.readVLong();
@@ -47,50 +45,30 @@ public class InternalMyAvg extends InternalNumericMetricsAggregation.SingleValue
 
     @Override
     protected void doWriteTo(StreamOutput out) throws IOException {
-        LOGGER.info("doWriteTo");
         out.writeNamedWriteable(format);
         out.writeDouble(sum);
         out.writeVLong(count);
-        LOGGER.info("doWriteTo end");
     }
 
     @Override
     public double value() {
-        LOGGER.info("value");
         return getValue();
     }
 
     @Override
     public double getValue() {
-        LOGGER.info("myvalue " + (sum / count));
         return sum / count;
-    }
-
-    double getSum() {
-        return sum;
-    }
-
-    long getCount() {
-        return count;
-    }
-
-    DocValueFormat getFormatter() {
-        return format;
     }
 
     @Override
     public String getWriteableName() {
-        LOGGER.info("getWriteableName");
         return MyAvgAggregationBuilder.NAME;
     }
 
     @Override
     public InternalMyAvg reduce(List<InternalAggregation> aggregations, ReduceContext reduceContext) {
-        LOGGER.info("reduce");
         CompensatedSum kahanSummation = new CompensatedSum(0, 0);
         long count = 0;
-        // Compute the sum of double values with Kahan summation algorithm which is more
-        // accurate than naive summation.
         for (InternalAggregation aggregation : aggregations) {
             InternalMyAvg avg = (InternalMyAvg) aggregation;
             count += avg.count;
@@ -101,7 +79,6 @@ public class InternalMyAvg extends InternalNumericMetricsAggregation.SingleValue
 
     @Override
     public XContentBuilder doXContentBody(XContentBuilder builder, Params params) throws IOException {
-        LOGGER.info("doXContentBody");
         builder.field(CommonFields.VALUE.getPreferredName(), count != 0 ? getValue() : null);
         if (count != 0 && format != DocValueFormat.RAW) {
             builder.field(CommonFields.VALUE_AS_STRING.getPreferredName(), format.format(getValue()).toString());
@@ -111,13 +88,11 @@ public class InternalMyAvg extends InternalNumericMetricsAggregation.SingleValue
 
     @Override
     public int hashCode() {
-        LOGGER.info("hashCode");
         return Objects.hash(super.hashCode(), sum, count, format.getWriteableName());
     }
 
     @Override
     public boolean equals(Object obj) {
-        LOGGER.info("equals");
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         if (super.equals(obj) == false) return false;

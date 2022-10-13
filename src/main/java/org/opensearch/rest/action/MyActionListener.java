@@ -9,11 +9,8 @@ package org.opensearch.rest.action;
 
 import org.opensearch.action.ActionListener;
 import org.opensearch.action.search.SearchResponse;
-import org.opensearch.rest.RestChannel;
-import org.opensearch.search.aggregations.Aggregation;
 
 public abstract class MyActionListener implements ActionListener<SearchResponse> {
-
 
     private final String functionName;
     private final String indexName;

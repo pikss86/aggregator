@@ -4,9 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e419c3ad-4109-4fc2-a6f1-5e511ad1bf4f" name="Changes" comment="readme.md">
+    <list default="true" id="e419c3ad-4109-4fc2-a6f1-5e511ad1bf4f" name="Changes" comment="отформатировал результаты запросов">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/HelloWorldService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/HelloWorldPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/HelloWorldPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/InternalMyAvg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/InternalMyAvg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/InternalMyMax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/InternalMyMax.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/InternalMyValues.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyActionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyActionListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyAvgAggregationBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyAvgAggregationBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyAvgAggregator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyAvgAggregator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyAvgAggregatorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyAvgAggregatorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyMaxAggregationBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyMaxAggregationBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyMaxAggregator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyMaxAggregator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyMaxAggregatorFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyMaxAggregatorFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyValuesAggregationBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyValuesAggregator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyValuesAggregatorFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/MyValuesAggregatorSupplier.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/RestHelloWorldAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/RestHelloWorldAction.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -216,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665649878103</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="отформатировал результаты запросов">
+      <created>1665674340416</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1665674340417</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,6 +266,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="plugin init commit" />
     <MESSAGE value="readme.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="readme.md" />
+    <MESSAGE value="отформатировал результаты запросов" />
+    <option name="LAST_COMMIT_MESSAGE" value="отформатировал результаты запросов" />
   </component>
 </project>

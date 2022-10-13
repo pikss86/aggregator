@@ -55,8 +55,6 @@ class MyAvgAggregator extends NumericMetricsAggregator.SingleValue implements My
             Map<String, Object> metadata
     ) throws IOException {
         super(name, context, parent, metadata);
-        LOGGER.info("MyAvgAggregator");
-        // TODO Stop expecting nulls here
         this.valuesSource = valuesSourceConfig.hasValues() ? (ValuesSource.Numeric) valuesSourceConfig.getValuesSource() : null;
         this.format = valuesSourceConfig.format();
         if (valuesSource != null) {
@@ -69,13 +67,11 @@ class MyAvgAggregator extends NumericMetricsAggregator.SingleValue implements My
 
     @Override
     public ScoreMode scoreMode() {
-        LOGGER.info("scoreMode");
         return valuesSource != null && valuesSource.needsScores() ? ScoreMode.COMPLETE : ScoreMode.COMPLETE_NO_SCORES;
     }
 
     @Override
     public LeafBucketCollector getLeafCollector(LeafReaderContext ctx, final LeafBucketCollector sub) throws IOException {
-        LOGGER.info("getLeafCollector");
         if (valuesSource == null) {
             return LeafBucketCollector.NO_OP_COLLECTOR;
         }
@@ -86,7 +82,6 @@ class MyAvgAggregator extends NumericMetricsAggregator.SingleValue implements My
         return new LeafBucketCollectorBase(sub, values) {
             @Override
             public void collect(int doc, long bucket) throws IOException {
-//                LOGGER.info("collect");
                 counts = bigArrays.grow(counts, bucket + 1);
                 sums = bigArrays.grow(sums, bucket + 1);
                 compensations = bigArrays.grow(compensations, bucket + 1);
@@ -115,7 +110,6 @@ class MyAvgAggregator extends NumericMetricsAggregator.SingleValue implements My
 
     @Override
     public double metric(long owningBucketOrd) {
-        LOGGER.info("metric");
         if (valuesSource == null || owningBucketOrd >= sums.size()) {
             return Double.NaN;
         }
@@ -124,7 +118,6 @@ class MyAvgAggregator extends NumericMetricsAggregator.SingleValue implements My
 
     @Override
     public InternalAggregation buildAggregation(long bucket) {
-        LOGGER.info("buildAggregation");
         if (valuesSource == null || bucket >= sums.size()) {
             return buildEmptyAggregation();
         }
@@ -133,55 +126,46 @@ class MyAvgAggregator extends NumericMetricsAggregator.SingleValue implements My
 
     @Override
     public InternalAggregation buildEmptyAggregation() {
-        LOGGER.info("buildEmptyAggregation");
         return new InternalMyAvg(name, 0.0, 0L, format, metadata());
     }
 
     @Override
     public void doClose() {
-        LOGGER.info("doClose");
         Releasables.close(counts, sums, compensations);
     }
 
     @Override
     public double getValue() {
-        LOGGER.info("getValue");
         return sums.size();
     }
 
     @Override
     public double value() {
-        LOGGER.info("value");
         return 0;
     }
 
     @Override
     public String getValueAsString() {
-        LOGGER.info("getValueAsString");
         return null;
     }
 
     @Override
     public String getName() {
-        LOGGER.info("getName");
         return null;
     }
 
     @Override
     public String getType() {
-        LOGGER.info("getType");
         return null;
     }
 
     @Override
     public Map<String, Object> getMetadata() {
-        LOGGER.info("getMetadata");
         return null;
     }
 
     @Override
     public XContentBuilder toXContent(XContentBuilder builder, Params params) throws IOException {
-        LOGGER.info("toXContent");
         return null;
     }
 }

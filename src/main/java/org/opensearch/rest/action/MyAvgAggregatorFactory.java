@@ -28,7 +28,6 @@ public class MyAvgAggregatorFactory extends ValuesSourceAggregatorFactory {
     private static final Logger LOGGER = LogManager.getLogger(MyAvgAggregatorFactory.class);
 
     static void registerAggregators(ValuesSourceRegistry.Builder builder) {
-        LOGGER.info("registerAggregators");
         builder.register(
                 MyAvgAggregationBuilder.REGISTRY_KEY,
                 org.opensearch.common.collect.List.of(CoreValuesSourceType.NUMERIC, CoreValuesSourceType.DATE, CoreValuesSourceType.BOOLEAN),

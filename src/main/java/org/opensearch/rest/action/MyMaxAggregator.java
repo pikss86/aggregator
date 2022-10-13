@@ -57,8 +57,6 @@ class MyMaxAggregator extends NumericMetricsAggregator.SingleValue {
     MyMaxAggregator(String name, ValuesSourceConfig config, SearchContext context, Aggregator parent, Map<String, Object> metadata)
             throws IOException {
         super(name, context, parent, metadata);
-        LOGGER.info("MyMaxAggregator");
-        // TODO stop expecting nulls here
         this.valuesSource = config.hasValues() ? (ValuesSource.Numeric) config.getValuesSource() : null;
         if (valuesSource != null) {
             maxes = context.bigArrays().newDoubleArray(1, false);
@@ -75,33 +73,25 @@ class MyMaxAggregator extends NumericMetricsAggregator.SingleValue {
 
     @Override
     public ScoreMode scoreMode() {
-        LOGGER.info("scoreMode");
         return valuesSource != null && valuesSource.needsScores() ? ScoreMode.COMPLETE : ScoreMode.COMPLETE_NO_SCORES;
     }
 
     @Override
     public LeafBucketCollector getLeafCollector(LeafReaderContext ctx, final LeafBucketCollector sub) throws IOException {
-        LOGGER.info("getLeafCollector");
         if (valuesSource == null) {
             if (parent != null) {
                 return LeafBucketCollector.NO_OP_COLLECTOR;
             } else {
-                // we have no parent and the values source is empty so we can skip collecting hits.
                 throw new CollectionTerminatedException();
             }
         }
         if (pointConverter != null) {
             Number segMax = findLeafMaxValue(ctx.reader(), pointField, pointConverter);
             if (segMax != null) {
-                /*
-                 * There is no parent aggregator (see {@link AggregatorBase#getPointReaderOrNull}
-                 * so the ordinal for the bucket is always 0.
-                 */
                 assert maxes.size() == 1;
                 double max = maxes.get(0);
                 max = Math.max(max, segMax.doubleValue());
                 maxes.set(0, max);
-                // the maximum value has been extracted, we don't need to collect hits on this segment.
                 throw new CollectionTerminatedException();
             }
         }
@@ -112,7 +102,6 @@ class MyMaxAggregator extends NumericMetricsAggregator.SingleValue {
 
             @Override
             public void collect(int doc, long bucket) throws IOException {
-//                LOGGER.info("collect");
                 if (bucket >= maxes.size()) {
                     long from = maxes.size();
                     maxes = bigArrays.grow(maxes, bucket + 1);
@@ -131,7 +120,6 @@ class MyMaxAggregator extends NumericMetricsAggregator.SingleValue {
 
     @Override
     public double metric(long owningBucketOrd) {
-        LOGGER.info("metric");
         if (valuesSource == null || owningBucketOrd >= maxes.size()) {
             return Double.NEGATIVE_INFINITY;
         }
@@ -140,7 +128,6 @@ class MyMaxAggregator extends NumericMetricsAggregator.SingleValue {
 
     @Override
     public InternalAggregation buildAggregation(long bucket) {
-        LOGGER.info("buildAggregation");
         if (valuesSource == null || bucket >= maxes.size()) {
             return buildEmptyAggregation();
         }
@@ -149,13 +136,11 @@ class MyMaxAggregator extends NumericMetricsAggregator.SingleValue {
 
     @Override
     public InternalAggregation buildEmptyAggregation() {
-        LOGGER.info("buildEmptyAggregation");
         return new InternalMyMax(name, Double.NEGATIVE_INFINITY, formatter, metadata());
     }
 
     @Override
     public void doClose() {
-        LOGGER.info("doClose");
         Releasables.close(maxes);
     }
 
@@ -164,14 +149,12 @@ class MyMaxAggregator extends NumericMetricsAggregator.SingleValue {
      * if the value cannot be inferred from the indexed {@link PointValues}.
      */
     static Number findLeafMaxValue(LeafReader reader, String fieldName, Function<byte[], Number> converter) throws IOException {
-        LOGGER.info("findLeafMaxValue");
         final PointValues pointValues = reader.getPointValues(fieldName);
         if (pointValues == null) {
             return null;
         }
         final Bits liveDocs = reader.getLiveDocs();
         if (liveDocs == null) {
-            LOGGER.info("liveDocs == null");
             return converter.apply(pointValues.getMaxPackedValue());
         }
         int numBytes = pointValues.getBytesPerDimension();
@@ -180,16 +163,12 @@ class MyMaxAggregator extends NumericMetricsAggregator.SingleValue {
         pointValues.intersect(new PointValues.IntersectVisitor() {
             @Override
             public void visit(int docID) {
-                LOGGER.info("visit");
                 throw new UnsupportedOperationException();
             }
 
             @Override
             public void visit(int docID, byte[] packedValue) {
-                LOGGER.info("visit");
                 if (liveDocs.get(docID)) {
-                    // we need to collect all values in this leaf (the sort is ascending) where
-                    // the last live doc is guaranteed to contain the max value for the segment.
                     if (result[0] == null) {
                         result[0] = new byte[packedValue.length];
                     }
@@ -199,9 +178,7 @@ class MyMaxAggregator extends NumericMetricsAggregator.SingleValue {
 
             @Override
             public PointValues.Relation compare(byte[] minPackedValue, byte[] maxPackedValue) {
-                LOGGER.info("compare");
                 if (Arrays.equals(maxValue, 0, numBytes, maxPackedValue, 0, numBytes)) {
-                    // we only check leaves that contain the max value for the segment.
                     return PointValues.Relation.CELL_CROSSES_QUERY;
                 } else {
                     return PointValues.Relation.CELL_OUTSIDE_QUERY;

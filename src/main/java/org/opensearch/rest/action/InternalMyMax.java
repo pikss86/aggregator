@@ -27,7 +27,6 @@ public class InternalMyMax extends InternalNumericMetricsAggregation.SingleValue
 
     public InternalMyMax(String name, double max, DocValueFormat format, Map<String, Object> metadata) {
         super(name, metadata);
-        LOGGER.info("create InternalMyMax " + max);
         this.max = max;
         this.format = format;
     }
@@ -37,48 +36,33 @@ public class InternalMyMax extends InternalNumericMetricsAggregation.SingleValue
      */
     public InternalMyMax(StreamInput in) throws IOException {
         super(in);
-        LOGGER.info("create InternalMyMax");
         format = in.readNamedWriteable(DocValueFormat.class);
         max = in.readDouble();
     }
 
     @Override
     protected void doWriteTo(StreamOutput out) throws IOException {
-        LOGGER.info("doWriteTo");
         out.writeNamedWriteable(format);
         out.writeDouble(max);
-        LOGGER.info("doWriteTo end");
     }
 
     @Override
     public double value() {
-        LOGGER.info("value");
         return getValue();
     }
 
     @Override
     public double getValue() {
-        LOGGER.info("mymaxvalue " + max);
         return max;
-    }
-
-    double getMax() {
-        return max;
-    }
-
-    DocValueFormat getFormatter() {
-        return format;
     }
 
     @Override
     public String getWriteableName() {
-        LOGGER.info("getWriteableName");
         return MyMaxAggregationBuilder.NAME;
     }
 
     @Override
     public InternalMyMax reduce(List<InternalAggregation> aggregations, ReduceContext reduceContext) {
-        LOGGER.info("reduce");
         double max = Double.NEGATIVE_INFINITY;
         for (InternalAggregation aggregation : aggregations) {
             max = Math.max(max, ((InternalMyMax) aggregation).max);
@@ -88,7 +72,6 @@ public class InternalMyMax extends InternalNumericMetricsAggregation.SingleValue
 
     @Override
     public XContentBuilder doXContentBody(XContentBuilder builder, Params params) throws IOException {
-        LOGGER.info("doXContentBody");
         builder.field(CommonFields.VALUE.getPreferredName(), max != Double.NEGATIVE_INFINITY ? getValue() : null);
         if (max != Double.NEGATIVE_INFINITY && format != DocValueFormat.RAW) {
             builder.field(CommonFields.VALUE_AS_STRING.getPreferredName(), format.format(getValue()).toString());
@@ -98,13 +81,11 @@ public class InternalMyMax extends InternalNumericMetricsAggregation.SingleValue
 
     @Override
     public int hashCode() {
-        LOGGER.info("hashCode");
         return Objects.hash(super.hashCode(), max, format.getWriteableName());
     }
 
     @Override
     public boolean equals(Object obj) {
-        LOGGER.info("equals");
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         if (super.equals(obj) == false) return false;

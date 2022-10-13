@@ -23,8 +23,6 @@ import java.util.Map;
 
 public class MyMaxAggregationBuilder extends ValuesSourceAggregationBuilder.LeafOnly<ValuesSource.Numeric, MyMaxAggregationBuilder> {
 
-
-
     public static final String NAME = "mymax";
     public static final ValuesSourceRegistry.RegistryKey<MetricAggregatorSupplier> REGISTRY_KEY = new ValuesSourceRegistry.RegistryKey<>(
             NAME,

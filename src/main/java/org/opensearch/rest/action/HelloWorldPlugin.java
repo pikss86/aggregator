@@ -20,8 +20,6 @@ import org.opensearch.plugins.Plugin;
 import org.opensearch.plugins.SearchPlugin;
 import org.opensearch.rest.RestController;
 import org.opensearch.rest.RestHandler;
-import org.opensearch.search.aggregations.bucket.terms.StringTerms;
-import org.opensearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -33,7 +31,6 @@ public class HelloWorldPlugin extends Plugin implements ActionPlugin, SearchPlug
     private static final Logger LOGGER = LogManager.getLogger(HelloWorldPlugin.class);
     @Override
     public List<AggregationSpec> getAggregations() {
-        LOGGER.info("HelloWorldPlugin getAggregations");
         return List.of(
                 new AggregationSpec(MyAvgAggregationBuilder.NAME, MyAvgAggregationBuilder::new, MyAvgAggregationBuilder.PARSER)
                         .addResultReader(InternalMyAvg::new)
@@ -41,9 +38,6 @@ public class HelloWorldPlugin extends Plugin implements ActionPlugin, SearchPlug
                 new AggregationSpec(MyMaxAggregationBuilder.NAME, MyMaxAggregationBuilder::new, MyMaxAggregationBuilder.PARSER)
                         .addResultReader(InternalMyMax::new)
                         .setAggregatorRegistrar(MyMaxAggregationBuilder::registerAggregators)
-//                new AggregationSpec(TermsAggregationBuilder.NAME, TermsAggregationBuilder::new, TermsAggregationBuilder.PARSER)
-//                        .addResultReader(StringTerms::new)
-//                        .setAggregatorRegistrar(TermsAggregationBuilder::registerAggregators)
         );
     }
 
@@ -55,8 +49,6 @@ public class HelloWorldPlugin extends Plugin implements ActionPlugin, SearchPlug
                                              final SettingsFilter settingsFilter,
                                              final IndexNameExpressionResolver indexNameExpressionResolver,
                                              final Supplier<DiscoveryNodes> nodesInCluster) {
-
-        LOGGER.info("HelloWorldPlugin getRestHandlers");
         return singletonList(new RestHelloWorldAction());
     }
 }

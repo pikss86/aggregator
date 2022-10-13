@@ -23,8 +23,6 @@ import java.util.Map;
 
 public class MyAvgAggregationBuilder extends ValuesSourceAggregationBuilder.LeafOnly<ValuesSource.Numeric, MyAvgAggregationBuilder> {
 
-
-
     public static final String NAME = "myavg";
     public static final ValuesSourceRegistry.RegistryKey<MetricAggregatorSupplier> REGISTRY_KEY = new ValuesSourceRegistry.RegistryKey<>(
             NAME,
