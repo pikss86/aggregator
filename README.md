@@ -26,7 +26,7 @@ docker cp opensearch-rest-aggregator-plugin.zip containerid:/usr/share/opensearc
 ### Запуск  
 Для проверки функций можно воскользоваться Postman или curl.  
 Тестировалось только на данных индекса opensearch_dashboards_sample_data_ecommerce.  
-В целом нужно отправить POST запрос на url (если запущено в docker)
+В целом нужно отправить POST запрос на url
 https://localhost:9200/_plugins/hello_world  
 Content-Type: applicaton/json  
 В тело запроса нужно поместить параметры  
