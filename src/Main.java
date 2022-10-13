@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Main {
 
-    private static void avg(Item[] data) {
+    private static double avg(Item[] data) {
         if (data.length == 0)
             System.out.println("Input array length 0");
 
@@ -21,10 +21,10 @@ public class Main {
                 avgValue += item.ups_adv_battery_run_time_remaining;
         }
         avgValue = avgValue / (data.length - nullCount);
-        System.out.println(avgValue);
+        return avgValue;
     }
 
-    private static void max(Item[] data) {
+    private static long max(Item[] data) {
         if (data.length == 0)
             System.out.println("Input array length 0");
 
@@ -34,16 +34,16 @@ public class Main {
                 if (item.ups_adv_output_voltage > maxValue)
                     maxValue = item.ups_adv_output_voltage;
         }
-        System.out.println(maxValue);
+        return maxValue;
     }
 
-    private static void values(Item[] data) {
+    private static Set<String> values(Item[] data) {
         Set<String> valuesSet = new HashSet<>();
         for (Item item : data) {
             if (item.host != null)
                 valuesSet.add(item.host);
         }
-        System.out.println(valuesSet);
+        return valuesSet;
     }
 
     public static void main(String[] args) throws IOException {
@@ -62,11 +62,14 @@ public class Main {
             System.exit(2);
         }
         if ("avg".equals(functionName)) {
-            avg(data);
+            double result = avg(data);
+            System.out.println(result);
         } else if ("max".equals(functionName)) {
-            max(data);
+            long result = max(data);
+            System.out.println(result);
         } else if ("values".equals(functionName)) {
-            values(data);
+            Set<String> result = values(data);
+            System.out.println(gson.toJson(result));
         }
     }
 }
