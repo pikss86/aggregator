@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e419c3ad-4109-4fc2-a6f1-5e511ad1bf4f" name="Changes" comment="plugin init commit">
+    <list default="true" id="e419c3ad-4109-4fc2-a6f1-5e511ad1bf4f" name="Changes" comment="readme.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/opensearch/rest/action/HelloWorldPluginTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yamlRestTest/java/org/opensearch/rest/action/HelloWorldClientYamlTestSuiteIT.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/yamlRestTest/resources/rest-api-spec/api/_plugins.hello_world.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/HelloWorldService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/RestHelloWorldAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/opensearch/rest/action/RestHelloWorldAction.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,7 +202,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665646142569</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="readme.md">
+      <created>1665649478549</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1665649478549</updated>
+    </task>
+    <task id="LOCAL-00003" summary="readme.md">
+      <created>1665649878103</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1665649878103</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -232,6 +244,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="plugin init commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="plugin init commit" />
+    <MESSAGE value="readme.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="readme.md" />
   </component>
 </project>

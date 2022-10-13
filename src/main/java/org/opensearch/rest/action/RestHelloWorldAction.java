@@ -14,8 +14,13 @@ import org.opensearch.action.search.SearchAction;
 import org.opensearch.action.search.SearchRequest;
 import org.opensearch.action.search.SearchResponse;
 import org.opensearch.client.node.NodeClient;
+import org.opensearch.common.Strings;
+import org.opensearch.common.xcontent.XContentBuilder;
+import org.opensearch.common.xcontent.json.JsonXContent;
 import org.opensearch.rest.BaseRestHandler;
+import org.opensearch.rest.BytesRestResponse;
 import org.opensearch.rest.RestRequest;
+import org.opensearch.rest.RestStatus;
 import org.opensearch.search.aggregations.Aggregation;
 import org.opensearch.search.aggregations.bucket.terms.StringTerms;
 import org.opensearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
@@ -111,27 +116,25 @@ public class RestHelloWorldAction extends BaseRestHandler {
                     LOGGER.info("3");
                     if ("myavg".equals(functionName)) {
                         String value = ((MyAvg) agg).getValueAsString();
-                        channel.sendResponse(
-                                HelloWorldService.buildResponse(
-                                        type,
-                                        value,
-                                        functionName + indexName + fieldName));
+                        channel.sendResponse(new BytesRestResponse(RestStatus.OK, value));
                     } else if ("mymax".equals(functionName)) {
                         String value = ((MyMax) agg).getValueAsString();
-                        channel.sendResponse(
-                                HelloWorldService.buildResponse(
-                                        type,
-                                        value,
-                                        functionName + indexName + fieldName));
+                        channel.sendResponse(new BytesRestResponse(RestStatus.OK, value));
                     } else if ("myvalues".equals(functionName)) {
                         LOGGER.info("4");
-                        int size = ((StringTerms)agg).getBuckets().size();
-                        LOGGER.info("size = " + size);
-                        channel.sendResponse(
-                                HelloWorldService.buildResponse(
-                                        "myvalues",
-                                        "myvalues",
-                                        "myvalues"));
+                        List<StringTerms.Bucket> buckets = ((StringTerms)agg).getBuckets();
+                        LOGGER.info("size = " + buckets.size());
+                        try {
+                            XContentBuilder xcb = JsonXContent.contentBuilder();
+                            xcb.startArray();
+                            for (StringTerms.Bucket bucket : buckets) {
+                                xcb.value(bucket.getKeyAsString());
+                            }
+                            xcb.endArray();
+                            channel.sendResponse(new BytesRestResponse(RestStatus.OK, Strings.toString(xcb)));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
 
